@@ -9,6 +9,7 @@
        SECURITY.                  
       *-------------------------------------------------------------------------
        ENVIRONMENT DIVISION.
+      * Coneccion del programa con el exterior
       *--------
        CONFIGURATION SECTION.
        SOURCE COMPUTER.            IBM-3183.
@@ -20,8 +21,10 @@
            SELECT <NOMBRE> ASSIGN TO UT-S-<NOMBRE>.
       *-------------------------------------------------------------------------
        DATA DIVISION.
+      * Declaración de variables
       *--------
        FILE SECTION.
+      *
       *--------
        WORKING-STORAGE SECTION.
       *--------
