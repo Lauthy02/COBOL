@@ -7,7 +7,7 @@
       *Compile el código fuente requerido para verificar la sintaxis.
 
        IDENTIFICATION DIVISION.
-       PROGRAM-ID.                 PROG00003
+       PROGRAM-ID.                 PROG0003.
        AUTHOR.                     Lautaro-Rojas
        DATE-WRITTEN.               03/10/2022
        DATE-COMPILED.
@@ -26,19 +26,16 @@
       *-----------------------
        WORKING-STORAGE SECTION.
        01 FECHA.
-            02 DIA PIC 9( 0 2 ) .
-            02 FILLER PIC X( 1 )
-                 VALUE " / " .
-            02 MES PIC 9( 0 2 ) .
-            02 FILLER PIC X( 1 )
-                 VALUE " / " .
-            02 ANIO
-                 03 SiGLO PIC 9(2).
-                 03 ANIO-ACT PIC 9(2).
+           02 Dia PIC 9(02).
+           02 FILLER PIC X(1)
+                 VALUE "/".
+           02 Mes PIC 9(02).
+           02 FILLER PIC X(1)
+                 VALUE "/".
+           02 Anio.
+                03 SiGLO PIC 9(2).
+                03 ANIO-ACT PIC 9(2).
       *
       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
        PROCEDURE DIVISION.
-       MAIN-PROCEDURE.
-            DISPLAY    "SIUUUUUUUUUUU"
-            STOP RUN.
-       END PROGRAM YOUR-PROGRAM-NAME.
+       END PROGRAM PROG0003.

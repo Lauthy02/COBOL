@@ -5,7 +5,7 @@
       *Compile el código fuente requerido para verificar la sintaxis.
 
 000001 IDENTIFICATION DIVISION.
-       PROGRAM-ID.                 PROG00001
+       PROGRAM-ID.                 PROG0001.
        AUTHOR.                     Lautaro-Rojas
        DATE-WRITTEN.               04/10/2022
        DATE-COMPILED.
@@ -23,13 +23,13 @@
        FILE SECTION.
       *-----------------------
        WORKING-STORAGE SECTION.
-       01 Fecha
-            02 Dia PIC 9(2)
-            02 Mes PIC 9(2)
-            02 Anio PIC 9(4)
+       01 Fecha.
+            02 Dia PIC 9(2).
+            02 Mes PIC 9(2).
+            02 Anio PIC 9(4).
       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
 000004 PROCEDURE DIVISION.
        MAIN-PROCEDURE.
             DISPLAY    "SIUUUUUUUUUUU"
             STOP RUN.
-       END PROGRAM YOUR-PROGRAM-NAME.
+       END PROGRAM PROG0001.

@@ -5,9 +5,9 @@
       *ser como sigue.
 
 000001 IDENTIFICATION DIVISION.
-       PROGRAM-ID.                 PROG0002
-       AUTHOR.                     Lautaro-Rojas
-       DATE-WRITTEN.               04/10/2022
+       PROGRAM-ID.                 PROG0002.
+       AUTHOR.                     Lautaro-Rojas.
+       DATE-WRITTEN.               04/10/2022.
        DATE-COMPILED.
       *
       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
