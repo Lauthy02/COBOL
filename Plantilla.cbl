@@ -16,17 +16,18 @@
        OBJECT COMPUTER.            IBM-3083.
       *--------
        INPUT-OUTPUT SECTION.
+      * 
        FILE-CONTROL.
            SELECT <NOMBRE> ASSIGN TO UT-S-<NOMBRE>.
            SELECT <NOMBRE> ASSIGN TO UT-S-<NOMBRE>.
       *-------------------------------------------------------------------------
        DATA DIVISION.
-      * Declaración de variables
       *--------
        FILE SECTION.
       *
       *--------
        WORKING-STORAGE SECTION.
+      * Definicion de todas las variables q vamos a usar
       *--------
        LINKAGE SECTION
       *-------------------------------------------------------------------------
