@@ -31,9 +31,16 @@
 
        77 ValidDia PIC XX
            88 ValidDiaOK VALUE 01.
-           88 ValidDiaNOOK VALUE 00.
-           88 ValidMes VALUE 01.
-           88 ValidAnio VALUE 01.
+           88 ValidDiaNoOK VALUE 00.
+
+       77 ValidMes PIC XX
+           88 ValidMesOK VALUE 01.
+           88 ValidMesNoOK VALUE 00.
+
+       77 ValidAnio PIC XX
+           88 ValidAnioOK VALUE 01.
+           88 ValidAnioNoOK VALUE 00.
+
       *
       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
        PROCEDURE DIVISION.
@@ -58,6 +65,16 @@
            DISPLAY Dia"/"Mes"/"Anio.
            DISPLAY Fecha.
 
-       000004-FIN-DEL-PROGRAMA.
+       000004-VALIDAR-DIA.
+           if Dia < 0 or Dia > 31 then
+               MOVE TRUE to ValidDia
+           else
+               MOVE FALSE to ValidDia
+       
+           end-if
+
+       00000X-FIN-DEL-PROGRAMA.
            DISPLAY "El programa terminó".
-           STOP RUN.
+           STOP RUN. 
+
+
