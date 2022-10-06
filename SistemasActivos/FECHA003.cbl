@@ -1,5 +1,7 @@
       *--1----.----2----.----3----.----4----.----5----.----6----.----7----.----8
-      *Entrar fecha y validar
+      *Crear un registro q se llama meses sub dividido en 12 campos q 
+      *son fillier y cada uno de esos campos tiene un 
+      *PIC9(10) VALUE Enero, febrero, marzo...
       *
        IDENTIFICATION DIVISION.
        PROGRAM-ID.                 FECHA002.
@@ -20,7 +22,8 @@
        FILE SECTION.
       *-----------------------
        WORKING-STORAGE SECTION.
-       01  SMV-Fecha.
+       01  MSV-CONTADOR    PIC 9       VALUE 0.
+       01  WSV-Fecha.
            02 Dia          PIC 9(2)    VALUE ZEROES.
            02 Mes          PIC 9(2)    VALUE ZEROES.
            02 Anio         PIC 9(4)    VALUE ZEROES.
@@ -37,7 +40,24 @@
            88 ANIO-INIC                VALUE "IN".
            88 ANIO-OK                  VALUE "OK".
 
-       01  MSV-CONTADOR    PIC 9       VALUE 0.
+      *WSC --> Para constantes
+       01  WSC-MES.
+           02 FILLER PIC x(10) VALUE "Enero     ".
+           02 FILLER PIC x(10) VALUE "Febrero   ".
+           02 FILLER PIC x(10) VALUE "Marzo     ".
+           02 FILLER PIC x(10) VALUE "Abril     ".
+           02 FILLER PIC x(10) VALUE "Mayo      ".
+           02 FILLER PIC x(10) VALUE "junio     ".
+           02 FILLER PIC x(10) VALUE "Julio     ".
+           02 FILLER PIC x(10) VALUE "Agosto    ".
+           02 FILLER PIC x(10) VALUE "Septiembre".
+           02 FILLER PIC x(10) VALUE "Octubre   ".
+           02 FILLER PIC x(10) VALUE "Noviembre ".
+           02 FILLER PIC x(10) VALUE "Diciembre ".
+       
+      *WST --> Para las tablas
+       01  WST-MESES-TAB REDEFINES WSC-MES.
+           02 WST-MES PIC X(10) OCCURS 12.
       *
       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
        PROCEDURE DIVISION.
@@ -101,8 +121,10 @@
 
        000004-MUESTRA-FECHA.
            DISPLAY " "
-           DISPLAY "La fecha es: "Dia"/"Mes"/"Anio.
-
+           DISPLAY "La fecha es: "WSV-Fecha
+           DISPLAY "La fecha es: "Dia"/"Mes"/"Anio
+           DISPLAY "La fecha es: "Dia" de "WST-MES(Mes)" de "Anio.
+               
        000005-FIN-DEL-PROGRAMA.
            DISPLAY " "
            DISPLAY "El programa terminó".
