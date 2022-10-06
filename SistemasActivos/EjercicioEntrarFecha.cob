@@ -28,12 +28,6 @@
            02 Dia PIC 9(2).
            02 Mes PIC 9(2).
            02 Anio PIC 9(4).
-
-       77 ValidDia PIC XX
-           88 ValidDiaOK VALUE 01.
-           88 ValidDiaNOOK VALUE 00.
-           88 ValidMes VALUE 01.
-           88 ValidAnio VALUE 01.
       *
       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
        PROCEDURE DIVISION.
