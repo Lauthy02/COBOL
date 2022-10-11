@@ -1,7 +1,7 @@
       *--1----.----2----.----3----.----4----.----5----.----6----.----7----.----8 
       *Definir la tabla   WST-MESES , dándole valor a los campos con 
       *los nombre de los meses y mostrar todos los campos , con DISPLAY
-
+      *
        IDENTIFICATION DIVISION.
        PROGRAM-ID.                EJE009A1.
        AUTHOR.                    Lautaro-Rojas
