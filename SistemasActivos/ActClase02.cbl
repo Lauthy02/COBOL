@@ -1,0 +1,1 @@
+      *Hacer una matriz de 3*3, cargarla con números y sumar la diagonal
