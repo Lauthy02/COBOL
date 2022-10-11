@@ -22,6 +22,7 @@
        FILE SECTION.
       *-----------------------
        WORKING-STORAGE SECTION.
+      *WSV --> Para variables
        01  MSV-CONTADOR    PIC 9       VALUE 0.
        01  WSV-Fecha.
            02 Dia          PIC 9(2)    VALUE ZEROES.
@@ -47,7 +48,7 @@
            02 FILLER PIC x(10) VALUE "Marzo     ".
            02 FILLER PIC x(10) VALUE "Abril     ".
            02 FILLER PIC x(10) VALUE "Mayo      ".
-           02 FILLER PIC x(10) VALUE "junio     ".
+           02 FILLER PIC x(10) VALUE "Junio     ".
            02 FILLER PIC x(10) VALUE "Julio     ".
            02 FILLER PIC x(10) VALUE "Agosto    ".
            02 FILLER PIC x(10) VALUE "Septiembre".
