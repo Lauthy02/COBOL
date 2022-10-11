@@ -22,7 +22,7 @@
       *-----------------------
        WORKING-STORAGE SECTION.
 
-       01  WSV-CONTADOR    PIC 9(2)    VALUE 0.
+       01  WSV-CONT    PIC 9(2)    VALUE 0.
       *WSC --> Para constantes
        01  WSC-MES.
            02 FILLER PIC x(10) VALUE "Enero     ".
@@ -46,18 +46,18 @@
        PROCEDURE DIVISION.
        MAIN-PROCEDURE.
            PERFORM 000001-INICIO-DEL-PROGRAMA.
-           PERFORM 000002-IMPRIMIR UNTIL WSV-CONTADOR > 12.
+           PERFORM 000002-IMPRIMIR.
            PERFORM 000003-FIN-DEL-PROGRAMA.
 
        000001-INICIO-DEL-PROGRAMA.
            DISPLAY "----El programa inició----".
        
        000002-IMPRIMIR.
-           DISPLAY WST-MES(WSV-CONTADOR).
-           ADD 1 TO WSV-CONTADOR.
+           PERFORM VARYING WSV-CONT FROM 1 BY 1 UNTIL WSV-CONT > 12
+               DISPLAY WST-MES(WSV-CONT)
+           END-PERFORM.
 
        000003-FIN-DEL-PROGRAMA.
-           DISPLAY " "
+           DISPLAY " ".
            DISPLAY "----El programa finalizó----".
            STOP RUN.
-
