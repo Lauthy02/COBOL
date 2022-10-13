@@ -2,9 +2,9 @@
       *Entrar fecha y validar
       *
        IDENTIFICATION DIVISION.
-       PROGRAM-ID.                 FECHA002.
+       PROGRAM-ID.                 PracticaDatos.
        AUTHOR.                     Lautaro-Rojas.
-       DATE-WRITTEN.               05/10/2022.
+       DATE-WRITTEN.               13/10/2022.
        DATE-COMPILED.
       *
       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
@@ -50,17 +50,22 @@
            02 CONTADOR-PRI PIC 9(3).
            02 PROM-ULT-5   PIC 9(3).
            02 CONTADOR-UTL PIC 9(3).
+           02 AUXILIAR     PIC 9(3).
+           02 I            PIC 9(3).
+           02 J            PIC 9(3).
       *
       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
        PROCEDURE DIVISION.
        000000-MAIN-PROCEDURE.
            PERFORM 000010-INICIO-DEL-PROGRAMA.
+           PERFORM 000012-MOSTRAR-TABLA.
            PERFORM 000011-CALC-TOTS.
            PERFORM 000020-MAXIMO.
            PERFORM 000021-MINIMO.
            PERFORM 000022-PROMEDIO-DE-TODO.
            PERFORM 000023-PROMEDIO-PRIMEROS-5.
            PERFORM 000024-PROMEDIO-ULTIMOS-5.
+           PERFORM 000025-BURBUJEO.
            PERFORM 000040-FIN-DEL-PROGRAMA.
 
        000010-INICIO-DEL-PROGRAMA.
@@ -80,6 +85,19 @@
                COMPUTE CONTADOR-UTL = CONTADOR-UTL + 1
            END-IF
        END-PERFORM.
+
+       000012-MOSTRAR-TABLA.
+           DISPLAY " "
+           DISPLAY "Mostrando tabla"
+           DISPLAY " "
+           MOVE ZEROES TO INDICE
+           PERFORM VARYING INDICE FROM 1
+           BY 1 UNTIL INDICE > 10
+               DISPLAY "| " WST-TAB(INDICE)" "
+               WITH NO ADVANCING 
+               DISPLAY "| " WITH NO ADVANCING 
+               DISPLAY " "
+           END-PERFORM.
 
        000020-MAXIMO.
            MOVE ZEROES TO WSV-MAX
@@ -114,17 +132,29 @@
        000024-PROMEDIO-ULTIMOS-5.
            DIVIDE TOT-ULT-5 BY CONTADOR-UTL GIVING PROM-ULT-5.
        
-       000025-BURBUJEO
-      *Mostrar cada vez como queda la tabla desp de una itretación
+       000025-BURBUJEO.
+       DISPLAY " "
+       DISPLAY "Iniciando burbujeo"
+       DISPLAY " "
+       PERFORM VARYING I FROM 1 BY 1 UNTIL I > 10
+           PERFORM VARYING J FROM 1 BY 1 UNTIL J > (10 - I)
+               IF WST-TAB(J) > WST-TAB(J + 1)
+                   MOVE WST-TAB(J) TO AUXILIAR
+                   MOVE WST-TAB(J + 1) TO WST-TAB(J)
+                   MOVE AUXILIAR TO WST-TAB(J + 1)
+               END-IF
+           END-PERFORM
+           PERFORM 000012-MOSTRAR-TABLA
+       END-PERFORM.
 
        000040-FIN-DEL-PROGRAMA.
            DISPLAY "El max es: " WSV-MAX
            DISPLAY "El min es: " WSV-MIN
-           DISPLAY "Promedio:"TOTAL"/"INDICE"="PROMEDIO
-           DISPLAY "Promedio:"TOT-PRI-5"/"CONTADOR-PRI"="PROM-PRI-5
-           DISPLAY "Promedio:"TOT-ULT-5"/"CONTADOR-UTL"="PROM-ULT-5
+           DISPLAY "Promedio: "TOTAL"/"INDICE"= "PROMEDIO
+           DISPLAY "Promedio primeros 5: "
+               TOT-PRI-5"/"CONTADOR-PRI"= "PROM-PRI-5
+           DISPLAY "Promedio ultimos 5: "
+               TOT-ULT-5"/"CONTADOR-UTL"= "PROM-ULT-5
            DISPLAY " "
            DISPLAY "El programa terminó"
            STOP RUN. 
-
-
