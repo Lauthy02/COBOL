@@ -1,9 +1,5 @@
       *--1----.----2----.----3----.----4----.----5----.----6----.----7----.----8 
-      *Realice el código fuente de un programa que pida al usuario las 
-      *tres partes de la fecha del Problema #1, y las presente con los 
-      *guiones en pantalla. Considerando que la salida del mismo deberá 
-      *ser como sigue.
-
+      *
 000001 IDENTIFICATION DIVISION.
        PROGRAM-ID.                 PROG0004.
        AUTHOR.                     Lautaro-Rojas.
@@ -23,20 +19,14 @@
        FILE SECTION.
       *-----------------------
        WORKING-STORAGE SECTION.
-       01 Fecha.
-           02 Dia PIC 9(2).
-           02 Mes PIC 9(2).
-           02 Anio PIC 9(4).
+       77  WSS-ESTADO-CIVIL    PIC X.
+           88 WSS-CASADO       VALUE "C".
+           88 WSS-SOLTERO      VALUE "S".
+           88 WSS-VIUDO        VALUE "V".
+           88 WSS-DIVORCIADO   VALUE "D".
       *
       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
 000004 PROCEDURE DIVISION.
        MAIN-PROCEDURE.
-           DISPLAY    "Ingrese el dia: "
-           ACCEPT Dia
-           DISPLAY    "Ingrese el mes: "
-           ACCEPT Mes
-           DISPLAY    "Ingrese el anio: "
-           ACCEPT Anio
-           DISPLAY Dia"/"Mes"/"Anio
+      *Compila bien, no tiene errores.
            STOP RUN.
-       END PROGRAM PROG0004.
