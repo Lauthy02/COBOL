@@ -19,9 +19,15 @@
        FILE SECTION.
       *-----------------------
        WORKING-STORAGE SECTION.
-       77  WSS-RIESGO    PIC 9(1)      VALUE 0.
-           88 WSS-APROBAR-RIESGO       VALUE 1 2 3.
-           88 WSS-DESAPROBAR-RIESGO    VALUE 4 5 6 7 8 9.
+       01  WSR-CTA-BANCARIA
+           02 WSR-SUCURSAL     PIC 9(03).
+           02 WSR-PRODUCTO     PIC 9(02).
+              88 WSR-CAJA-DE-AHORRO        VALUE 40.
+              88 WSR-PRESTAMO-PRENDARIO    VALUE 50.
+              88 WSR-PRESTAMO-HIPOTEC      VALUE 60.
+              88 WSR-CTA-CORRIENTE         VALUE 45.
+           02 WSR-NRO-CUENTA   PIC 9(05).
+           02 WSR-DIGITO-VERIF PIC 9(01).
       *
       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
        PROCEDURE DIVISION.
@@ -36,7 +42,7 @@
            DISPLAY " ".
        
        00010-Pedir-datos.
-           DISPLAY "Ingrese riesgo de la operación (1 a 9): "
+           DISPLAY "Ingrese el número de cuenta (xxx-xx-xxxxx-x): "
            ACCEPT WSS-RIESGO.
        
        00011-Verificar-riesgo.
