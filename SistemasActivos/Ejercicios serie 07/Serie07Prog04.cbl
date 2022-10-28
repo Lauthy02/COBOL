@@ -38,13 +38,17 @@
            ORGANIZATION IS LINE SEQUENTIAL
            FILE STATUS FS-SALIDA-INCIDENCIAS.
       *
+           SELECT SALIDA-CUEN-ACT ASSIGN TO "CUEN_ACT.TXT"
+           ORGANIZATION IS LINE SEQUENTIAL
+           FILE STATUS FS-ENTRADA-CUEN-ACT.
+      *
       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
        DATA DIVISION.
       *-----------------------
        FILE SECTION.
       *Archivo CUENTAS
       *Nro. Cliente | Tabla Ausencia. 
-           FD ENTRADA1-CUENTAS.
+           FD ENTRADA-CUENTAS.
                01 REGISTRO-ENTRADA-CUENTAS.
                    02 NRO-CLIE-CUEN            PIC 9(02).
                    02 NOMBRE-CLIE-CUEN         PIC X(10).
@@ -73,6 +77,14 @@
                01 REGISTRO-SALIDA-INCIDENCIAS. 
                    02 NRO-CLIE-INCI            PIC 9(02).
                    02 NOMBRE-TABLA-INCI        PIC X(10).
+      * 
+      *Archivo CUENTAS actualizado.
+      *       
+           FD SALIDA-SALIDA-CUEN-ACT.
+               01 REGISTRO-SALIDA-CUEN-ACT.
+                   02 NRO-CLIE-CUEN-ACT        PIC 9(02).
+                   02 NOMBRE-CLIE-CUEN-ACT     PIC X(10).
+                   02 SALDO-CLIE-CUEN-ACT      PIC 9999V99.
       *-----------------------
        WORKING-STORAGE SECTION.
       *Variables del file status                                             
@@ -95,6 +107,8 @@
            01 LEIDOS-SERVICIOS                 PIC 9(09) VALUE ZEROES.               
            01 ESCRITOS-RECHAZOS                PIC 9(09) VALUE ZEROES.  
            01 ESCRITOS-INCIDENCIAS             PIC 9(09) VALUE ZEROES.
+           01 DEUDA-AC                         PIC 9999V99.
+           01 NEW-SALDO                        PIC 9999V99.
        
            01 ANULADO.
                02 ANULADO-OBJETO               PIC X(15).
@@ -189,23 +203,52 @@
            STOP RUN.
 
        00050-Apareo.
-           IF (NRO-CLIE-CUEN > NRO-CLIE-SERV)
-                PERFORM 00007-LEER-SERVICIOS
+           IF (NRO-CLIE-CUEN == NRO-CLIE-SERV)
+               DEUDA-AC = DEUDA-AC + MONTO
+               LEIDOS-SERVICIOS = LEIDOS-SERVICIOS + 1
+               PERFORM 00007-LEER-SERVICIOS
            ELSE 
-               IF (NRO-CLIE-CUEN < NRO-CLIE-SERV)
-                   PERFORM 00006-LEER-CUENTAS
+               IF (NRO-CLIE-CUEN > NRO-CLIE-SERV)
+                   INITIALIZE REGISTRO-SALIDA-INCIDENCIAS
+                   MOVE NRO-CLIE-CUEN TO NRO-CLIE-INCI
+                   MOVE "CUENTAS" TO NOMBRE-TABLA-INCI 
+                   PERFORM 00060-Escribir-salida-incidencias
+                   PERFORM 00007-LEER-SERVICIOS            
                ELSE
-                   INITIALIZE REGISTRO-SALIDA
-                   MOVE NOMBRE TO SAL-NOMBRE
-                   MOVE APELLIDO TO SAL-APELLIDO 
-                   MOVE EDAD   TO SAL-EDAD
-      
-                   MOVE CLAVE1 TO SAL-CLAVE
-                   PERFORM 201-ESCRIBIR-SALIDA
-      
-                   PERFORM 00006-LEER-CUENTAS
+                   IF (NRO-CLIE-CUEN < NRO-CLIE-SERV)
+                       IF (SALDO-CLIE-CUEN > DEUDA-AC)
+                           NEW-SALDO = SALDO-CLIE-CUEN - DEUDA-AC
+                           INITIALIZE REGISTRO-SALIDA-CUEN-ACT
+                           MOVE NRO-CLIE-CUEN TO NRO-CLIE-CUEN-ACT
+                           MOVE NOMBRE-CLIE-CUEN TO NOMBRE-CLIE-CUEN-ACT
+                           MOVE NEW-SALDO TO SALDO-CLIE-CUEN-ACT
+                           PERFORM 00061-Escribir-salida-cuen-act 
+                       END-IF
+                       IF (DEUDA-AC > SALDO-CLIE-CUEN)
+                           INITIALIZE REGISTRO-SALIDA-RECHAZOS
+                           MOVE NRO-CLIE-CUEN TO NRO-CLIE-RECH
+                           MOVE NOMBRE-CLIE-CUEN TO NOMBRE-CLIE-RECH
+                           MOVE SALDO-CLIE-CUEN TO SALDO-CLIE-RECH
+                           MOVE DEUDA-AC TO DEUDA-CLIE-RECH
+                           PERFORM 00062-Escribir-salida-rechazos
+                       ELSE 
+                           INITIALIZE REGISTRO-SALIDA-INCIDENCIAS
+                           MOVE NRO-CLIE-CUEN TO NRO-CLIE-INCI
+                           MOVE "SERVICIO" TO NOMBRE-TABLA-INCI 
+                           PERFORM 00060-Escribir-salida-incidencias
+                       END-IF
+                   END-IF
                END-IF
-           END-IF.           
+           END-IF.
+
+       00060-Escribir-salida-incidencias.
+           WRITE REGISTRO-SALIDA-INCIDENCIAS
+
+       00061-Escribir-salida-cuen-act.
+           WRITE REGISTRO-SALIDA-CUEN-ACT
+
+       00062-Escribir-salida-rechazos.
+           WRITE REGISTRO-SALIDA-RECHAZOS
 
        00099-Cerrar-archivos.
            CLOSE ENTRADA-CUENTAS
@@ -244,4 +287,4 @@
            PERFORM 00099-Cerrar-archivos.
            DISPLAY " "
            DISPLAY "---- Fin del programa ----"
-           STOP RUN.
+           STOP RUN
