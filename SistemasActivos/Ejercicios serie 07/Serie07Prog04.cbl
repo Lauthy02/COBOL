@@ -136,6 +136,7 @@
            DISPLAY "Entre al 00050-Apareo"
            DISPLAY "El FS del ENTRADA-CUENTAS es: " FS-ENTRADA-CUENTAS
       *    Repetir 00000-A hasta EOF
+      *        No entra al perform de abajo
            PERFORM 00000-A UNTIL FS-ENTRADA-CUENTAS NOT= "10"
            DISPLAY "NOOOOOOOOOOOO".
 
