@@ -103,6 +103,9 @@
                02 ANULADO-OBJETO               PIC X(15).
                02 ANULADO-CODIGO               PIC X(05).
                02 ANULADO-DESCRIPCION          PIC X(50).
+      *Flags
+           
+
       *
       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
       *-------------------------- Programa -----------------------------
@@ -138,14 +141,15 @@
            DISPLAY "El FS del ENTRADA-CUENTAS es: " FS-ENTRADA-CUENTAS
       *    Repetir 00000-A hasta EOF
       *        No entra al perform de abajo
-           PERFORM 00000-A UNTIL FS-ENTRADA-CUENTAS NOT= "10"
-           DISPLAY "NOOOOOOOOOOOO".
+           PERFORM 00000-A UNTIL FS-ENTRADA-CUENTAS = "10"
+           DISPLAY "El FS del ENTRADA-CUENTAS es: " FS-ENTRADA-CUENTAS
+           DISPLAY "Sali del 00050-Apareo".
 
        00000-A.
            DISPLAY "Entre al 00000-A"
       *    Repetir 00000-B hasta EOF o A<B
-           PERFORM 00000-B UNTIL FS-ENTRADA-SERVICIOS NOT= "10"
-                   OR NRO-CLIE-CUEN > NRO-CLIE-SERV.
+           PERFORM 00000-B UNTIL (FS-ENTRADA-SERVICIOS = "10")
+                   OR (NRO-CLIE-CUEN < NRO-CLIE-SERV).
       *    Leer A
            PERFORM 00006-Leer-cuentas.
 
@@ -156,16 +160,18 @@
       *        Leer B
                PERFORM 00007-Leer-servicios
                DISPLAY "Leo servicios"
-           END-IF
-           IF (NRO-CLIE-CUEN > NRO-CLIE-SERV)
-               DISPLAY "Hago cuentas del >"
-      *        Leer B
-               PERFORM 00007-Leer-servicios
-               DISPLAY "Leo servicios"
-           END-IF
-           IF (NRO-CLIE-CUEN < NRO-CLIE-SERV)
-           DISPLAY "Mover a incidencias"
-      *        Mover a INCIDENCIAS
+           ELSE
+               IF (NRO-CLIE-CUEN > NRO-CLIE-SERV)
+      *            No hay en serv q si hay en cuen
+                   DISPLAY "Hago cuentas del >"
+      *            Leer B
+                   PERFORM 00007-Leer-servicios
+                   DISPLAY "Leo servicios"
+               ELSE
+      *            Hay algo en servicio que no está en cuenta
+                   DISPLAY "Mover a incidencias"
+      *            Mover a INCIDENCIAS
+               END-IF
            END-IF.
       *************************** Archivos *****************************
        00005-Abrir-archivos.
@@ -221,13 +227,17 @@
 
        00006-Leer-cuentas.
            READ ENTRADA-CUENTAS
-           DISPLAY "Registro leido de CUENTAS: "
-                   REGISTRO-ENTRADA-CUENTAS.
+           IF FS-ENTRADA-CUENTAS NOT= "10"
+               DISPLAY "Registro leido de CUENTAS: "
+                       REGISTRO-ENTRADA-CUENTAS
+           END-IF.
 
        00007-Leer-servicios.
            READ ENTRADA-SERVICIOS
-           DISPLAY "Registro leido de SERVICIOS: "
-                   REGISTRO-ENTRADA-SERVICIOS.
+           IF FS-ENTRADA-SERVICIOS NOT= "10"
+               DISPLAY "Registro leido de SERVICIOS: "
+                       REGISTRO-ENTRADA-SERVICIOS
+           END-IF.
 
        00060-Escribir-salida-inci.
            WRITE REGISTRO-SALIDA-INCIDENCIAS
