@@ -1,11 +1,12 @@
       *--1----.----2----.----3----.----4----.----5----.----6----.----7----.----8
-      * Son 4 archivos
+      * Son 5 archivos
       *    2 de entrada
       *        Cuentas
       *        Servicios
-      *    2 de salida
+      *    3 de salida
       *        Rechazos
       *        Incidencias
+      *        Cuentas actualizado (donde hago el apareo)
       *
       *Apareo entre el archivo CUENTAS y SERVICIOS por numero de cliente
       * Hacer un 3er archivo de salida de CUENTAS actualizado
