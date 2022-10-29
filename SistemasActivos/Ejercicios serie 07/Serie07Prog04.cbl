@@ -112,30 +112,30 @@
                    AND FS-ENTRADA-SERVICIOS NOT = "10 ".
            PERFORM 00100-Fin-del-programa.
       *
-      *-------------------------- Párrafos -----------------------------
+      *-------------------------- Parrafos -----------------------------
       *
        00001-Inicio-programa.
-           DISPLAY "----- El programa inició ----".
+           DISPLAY "----- El programa inicio ----".
            DISPLAY " "
            PERFORM 00005-Abrir-archivos
            PERFORM 00006-Leer-cuentas
                IF FS-ENTRADA1 = "10"
-                   MOVE "Archivo vacío" TO ANULADO-DESCRIPCION
+                   MOVE "Archivo vacio" TO ANULADO-DESCRIPCION
                    MOVE FS-ENTRADA1 TO ANULADO-CODIGO
                    MOVE "ENTRADA-CUENTAS"  TO ANULADO-OBJETO
                    PERFORM 00010-Mostrar-anulado
                END-IF
            PERFORM 00007-Leer-servicios
                IF FS-ENTRADA2 = "10"
-                   MOVE "Archivo vacío" TO ANULADO-DESCRIPCION
+                   MOVE "Archivo vacio" TO ANULADO-DESCRIPCION
                    MOVE FS-ENTRADA2 TO ANULADO-CODIGO
                    MOVE "ENTRADA-SERVICIOS" TO ANULADO-OBJETO
                    PERFORM 00010-Mostrar-anulado
                END-IF.
       *************************** Apareo *******************************
        00050-Apareo.
-           IF (NRO-CLIE-CUEN == NRO-CLIE-SERV)
-               DEUDA-AC = DEUDA-AC + MONTO
+           IF (NRO-CLIE-CUEN = NRO-CLIE-SERV)
+               COMPUTE DEUDA-AC = DEUDA-AC + MONTO
                COMPUTE LEIDOS-SERVICIOS = LEIDOS-SERVICIOS + 1
                PERFORM 00007-Leer-servicios
            ELSE 
@@ -227,27 +227,27 @@
        00006-Leer-cuentas.
            READ ENTRADA-CUENTAS
            DISPLAY "Registro leido de CUENTAS: " 
-                   REGISTRO-ENTRADA-CUENTAS
+                   REGISTRO-ENTRADA-CUENTAS.
 
        00007-Leer-servicios.
            READ ENTRADA-SERVICIOS
            DISPLAY "Registro leido de SERVICIOS: " 
-                   REGISTRO-ENTRADA-SERVICIOS
+                   REGISTRO-ENTRADA-SERVICIOS.
            
        00060-Escribir-salida-incidencias.
            WRITE REGISTRO-SALIDA-INCIDENCIAS
            DISPLAY "Registro escrito en INCIDENCIAS: " 
-                   REGISTRO-SALIDA-INCIDENCIAS
+                   REGISTRO-SALIDA-INCIDENCIAS.
 
        00061-Escribir-salida-cuen-act.
            WRITE REGISTRO-SALIDA-CUEN-ACT
            DISPLAY "Registro escrito en CUENTAS ACT: "
-                   REGISTRO-SALIDA-CUEN-ACT
+                   REGISTRO-SALIDA-CUEN-ACT.
 
        00062-Escribir-salida-rechazos.
            WRITE REGISTRO-SALIDA-RECHAZOS
            DISPLAY "Registro escrito en RECHAZOS: " 
-                   REGISTRO-SALIDA-RECHAZOS
+                   REGISTRO-SALIDA-RECHAZOS.
 
        00099-Cerrar-archivos.
            CLOSE ENTRADA-CUENTAS
