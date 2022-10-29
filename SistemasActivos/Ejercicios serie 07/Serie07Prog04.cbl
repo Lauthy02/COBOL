@@ -151,33 +151,59 @@
 
        00000-A.
            DISPLAY "Entre al 00000-A"
-      *    Repetir 00000-B hasta EOF o A<B
+      *    Repetir 00000-B hasta EOF o nro-cuen < nro-serv
            PERFORM 00000-B UNTIL (FS-ENTRADA-SERVICIOS = "10")
                    OR (NRO-CLIE-CUEN < NRO-CLIE-SERV).
-      *    Leer A
            IF FLAG-CUENTAS-NEW
-               DISPLAY "xxxxxxxxxxxTengo incidicnas de cuentasxxx"
+               DISPLAY "************ Cuentas que no están en servicios"
+               DISPLAY "El problematico es el cuentas"
                DISPLAY REGISTRO-ENTRADA-CUENTAS
+               INITIALIZE REGISTRO-SALIDA-INCIDENCIAS
+               MOVE NRO-CLIE-CUEN TO NRO-CLIE-INCI
+               MOVE "CUENTAS   " TO NOMBRE-TABLA-INCI
+               PERFORM 00060-Escribir-salida-inci 
            END-IF
            PERFORM 00006-Leer-cuentas.
 
        00000-B.
            DISPLAY "Entre al 00000-B"
            IF (NRO-CLIE-CUEN = NRO-CLIE-SERV)
-               DISPLAY "aca apareo registros"
+               DISPLAY "Aca apareo registros"
+               COMPUTE DEUDA-AC = DEUDA-AC + MONTO
+               IF (DEUDA-AC <= SALDO-CLIE-CUEN)
+                   COMPUTE NEW-SALDO = SALDO-CLIE-CUEN - DEUDA-AC
+                   INITIALIZE REGISTRO-SALIDA-CUEN-ACT
+                   MOVE NRO-CLIE-CUEN TO NRO-CLIE-CUEN-ACT
+                   MOVE NOMBRE-CLIE-CUEN TO NOMBRE-CLIE-CUEN-ACT
+                   MOVE NEW-SALDO TO SALDO-CLIE-CUEN-ACT
+                   PERFORM 00061-Escribir-salida-cuen-act
+               ELSE
+                   INITIALIZE REGISTRO-SALIDA-RECHAZOS
+                   MOVE NRO-CLIE-CUEN TO NRO-CLIE-RECH
+                   MOVE NOMBRE-CLIE-CUEN TO NOMBRE-CLIE-RECH
+                   MOVE SALDO-CLIE-CUEN TO SALDO-CLIE-RECH
+                   PERFORM 00061-Escribir-salida-cuen-act
+               END-IF
                SET FLAG-CUENTAS-OLD TO TRUE
            ELSE
-      *        Aca entra cuando cuentas(A) > servicios(B)
-      *        Tengo que escribir en INCIDENCIAS que hay algo en serv
-      *        pero no en cuentas
-               DISPLAY " ************ servicios que no esta en cuentas"
+      *        Aca entra cuando nro-cuen > nro-serv
+               DISPLAY "************ Servicios que no esta en cuentas"
+               DISPLAY "El problematico es el servicios"
+               INITIALIZE REGISTRO-SALIDA-INCIDENCIAS
+               MOVE NRO-CLIE-SERV TO NRO-CLIE-INCI
+               MOVE "SERVICIOS " TO NOMBRE-TABLA-INCI
+               PERFORM 00060-Escribir-salida-inci 
            END-IF
            PERFORM 00007-Leer-servicios.
        
        00000-Fin-de-servicios.
-           DISPLAY "Mover a incidencias del lado de servicios"
+           DISPLAY " ************ Servicios que no esta en cuentas"
+           DISPLAY "El problematico es el servicios"
            DISPLAY REGISTRO-ENTRADA-SERVICIOS
-           DISPLAY "leer servicios"
+           INITIALIZE REGISTRO-SALIDA-INCIDENCIAS
+           MOVE NRO-CLIE-SERV TO NRO-CLIE-INCI
+           MOVE "SERVICIOS " TO NOMBRE-TABLA-INCI
+           PERFORM 00060-Escribir-salida-inci 
            PERFORM 00007-Leer-servicios.
       *************************** Archivos *****************************
        00005-Abrir-archivos.
@@ -245,12 +271,12 @@
                DISPLAY "Registro leido de SERVICIOS: "
                        REGISTRO-ENTRADA-SERVICIOS
            END-IF.
-
+       
        00060-Escribir-salida-inci.
            WRITE REGISTRO-SALIDA-INCIDENCIAS
            DISPLAY "Registro escrito en INCIDENCIAS: "
                    REGISTRO-SALIDA-INCIDENCIAS.
-
+       
        00061-Escribir-salida-cuen-act.
            WRITE REGISTRO-SALIDA-CUEN-ACT
            DISPLAY "Registro escrito en CUENTAS ACT: "
