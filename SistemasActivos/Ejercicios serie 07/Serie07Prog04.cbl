@@ -104,7 +104,9 @@
                02 ANULADO-CODIGO               PIC X(05).
                02 ANULADO-DESCRIPCION          PIC X(50).
       *Flags
-           
+           77 FLAG-CUENTAS                     PIC 9(01).
+               88 FLAG-CUENTAS-NEW             VALUE 0.
+               88 FLAG-CUENTAS-OLD             VALUE 1. 
 
       *
       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
@@ -144,6 +146,8 @@
            PERFORM 00000-A UNTIL FS-ENTRADA-CUENTAS = "10"
            DISPLAY "El FS del ENTRADA-CUENTAS es: " FS-ENTRADA-CUENTAS
            DISPLAY "Sali del 00050-Apareo".
+           PERFORM 00000-Fin-de-servicios UNTIL 
+                   FS-ENTRADA-SERVICIOS = "10".
 
        00000-A.
            DISPLAY "Entre al 00000-A"
@@ -151,28 +155,30 @@
            PERFORM 00000-B UNTIL (FS-ENTRADA-SERVICIOS = "10")
                    OR (NRO-CLIE-CUEN < NRO-CLIE-SERV).
       *    Leer A
+           IF FLAG-CUENTAS-NEW
+               DISPLAY "xxxxxxxxxxxTengo incidicnas de cuentasxxx"
+               DISPLAY REGISTRO-ENTRADA-CUENTAS
+           END-IF
            PERFORM 00006-Leer-cuentas.
 
        00000-B.
            DISPLAY "Entre al 00000-B"
            IF (NRO-CLIE-CUEN = NRO-CLIE-SERV)
-               DISPLAY "Hago cuentas del ="
-      *        Leer B
-               PERFORM 00007-Leer-servicios
-               DISPLAY "Leo servicios"
+               DISPLAY "aca apareo registros"
+               SET FLAG-CUENTAS-OLD TO TRUE
            ELSE
-               IF (NRO-CLIE-CUEN > NRO-CLIE-SERV)
-      *            No hay en serv q si hay en cuen
-                   DISPLAY "Hago cuentas del >"
-      *            Leer B
-                   PERFORM 00007-Leer-servicios
-                   DISPLAY "Leo servicios"
-               ELSE
-      *            Hay algo en servicio que no está en cuenta
-                   DISPLAY "Mover a incidencias"
-      *            Mover a INCIDENCIAS
-               END-IF
-           END-IF.
+      *        Aca entra cuando cuentas(A) > servicios(B)
+      *        Tengo que escribir en INCIDENCIAS que hay algo en serv
+      *        pero no en cuentas
+               DISPLAY " ************ servicios que no esta en cuentas"
+           END-IF
+           PERFORM 00007-Leer-servicios.
+       
+       00000-Fin-de-servicios.
+           DISPLAY "Mover a incidencias del lado de servicios"
+           DISPLAY REGISTRO-ENTRADA-SERVICIOS
+           DISPLAY "leer servicios"
+           PERFORM 00007-Leer-servicios.
       *************************** Archivos *****************************
        00005-Abrir-archivos.
            OPEN INPUT ENTRADA-CUENTAS
@@ -230,6 +236,7 @@
            IF FS-ENTRADA-CUENTAS NOT= "10"
                DISPLAY "Registro leido de CUENTAS: "
                        REGISTRO-ENTRADA-CUENTAS
+               SET FLAG-CUENTAS-NEW TO TRUE
            END-IF.
 
        00007-Leer-servicios.
