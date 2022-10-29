@@ -85,7 +85,7 @@
                01 REGISTRO-SALIDA-CUEN-ACT.
                    02 NRO-CLIE-CUEN-ACT        PIC 9(02).
                    02 NOMBRE-CLIE-CUEN-ACT     PIC X(10).
-                   02 SALDO-CLIE-CUEN-ACT      PIC 9999V99.
+                   02 SALDO-CLIE-CUEN-ACT      PIC 999V99.
       *-----------------------
        WORKING-STORAGE SECTION.
       *Variables del file status
@@ -155,7 +155,7 @@
            PERFORM 00000-B UNTIL (FS-ENTRADA-SERVICIOS = "10")
                    OR (NRO-CLIE-CUEN < NRO-CLIE-SERV).
            IF FLAG-CUENTAS-NEW
-               DISPLAY "************ Cuentas que no están en servicios"
+               DISPLAY "************ Cuentas que no estan en servicios"
                DISPLAY "El problematico es el cuentas"
                DISPLAY REGISTRO-ENTRADA-CUENTAS
                INITIALIZE REGISTRO-SALIDA-INCIDENCIAS
@@ -182,7 +182,8 @@
                    MOVE NRO-CLIE-CUEN TO NRO-CLIE-RECH
                    MOVE NOMBRE-CLIE-CUEN TO NOMBRE-CLIE-RECH
                    MOVE SALDO-CLIE-CUEN TO SALDO-CLIE-RECH
-                   PERFORM 00061-Escribir-salida-cuen-act
+                   MOVE DEUDA-AC TO DEUDA-CLIE-RECH
+                   PERFORM 00062-Escribir-salida-rechazos
                END-IF
                SET FLAG-CUENTAS-OLD TO TRUE
            ELSE
