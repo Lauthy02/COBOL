@@ -1,0 +1,8 @@
+01Perez     04000 
+02Alvarez   03000 
+03Breither  01250 
+04Di Augusto10025 
+05Meloso    06000 
+06Mars      03210
+07Torres    02300 
+08Duffaur   00100
