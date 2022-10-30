@@ -1,2 +1,5 @@
 01Perez     03000
-01Perez     01500
+01Perez     02500
+04Di Augusto05025
+04Di Augusto03025
+05Meloso    04000

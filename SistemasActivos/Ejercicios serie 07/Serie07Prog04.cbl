@@ -177,6 +177,7 @@
                    MOVE NOMBRE-CLIE-CUEN TO NOMBRE-CLIE-CUEN-ACT
                    MOVE NEW-SALDO TO SALDO-CLIE-CUEN-ACT
                    PERFORM 00061-Escribir-salida-cuen-act
+                   MOVE 0 TO DEUDA-AC
                ELSE
                    INITIALIZE REGISTRO-SALIDA-RECHAZOS
                    MOVE NRO-CLIE-CUEN TO NRO-CLIE-RECH
@@ -184,6 +185,7 @@
                    MOVE SALDO-CLIE-CUEN TO SALDO-CLIE-RECH
                    MOVE DEUDA-AC TO DEUDA-CLIE-RECH
                    PERFORM 00062-Escribir-salida-rechazos
+                   MOVE 0 TO DEUDA-AC
                END-IF
                SET FLAG-CUENTAS-OLD TO TRUE
            ELSE
