@@ -84,9 +84,18 @@
            DISPLAY "Materia numero [" WSV-CONTADOR "]: "
            DISPLAY "Ingrese el nombre: "
            ACCEPT WSV-NOM-MAT
-           MOVE WSV-CONTADOR TO REG-MAT-NRO-MATERIA
-           MOVE WSV-NOM-MAT TO REG-MAT-DESCRIPCION
-           PERFORM 7000-Escribir-archivo
+           PERFORM 5150-Verificar-datos
+           .
+       5150-Verificar-datos.
+           IF(WSV-NOM-MAT = " ")
+             DISPLAY "**** No ingrese valores en blanco"
+             DISPLAY " "
+             SUBTRACT 1 FROM WSV-CONTADOR
+           ELSE
+              MOVE WSV-CONTADOR TO REG-MAT-NRO-MATERIA
+              MOVE WSV-NOM-MAT TO REG-MAT-DESCRIPCION
+              PERFORM 7000-Escribir-archivo
+           END-IF
            .
       *************************** Archivo ******************************
        7000-Abrir-archivo.

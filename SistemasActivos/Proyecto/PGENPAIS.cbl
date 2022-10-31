@@ -87,9 +87,18 @@
            DISPLAY "Pais numero [" WSV-CONTADOR "]: "
            DISPLAY "Ingrese el nombre: "
            ACCEPT WSV-NOM-PAIS
-           MOVE WSV-CONTADOR TO REG-PAIS-NRO-PAIS
-           MOVE WSV-NOM-PAIS TO REG-PAIS-DESCRIP
-           PERFORM 7000-Escribir-archivo
+           PERFORM 5150-Verificar-datos
+           .
+       5150-Verificar-datos.
+           IF(WSV-NOM-PAIS = " ")
+             DISPLAY "**** No ingrese valores en blanco"
+             DISPLAY " "
+             SUBTRACT 1 FROM WSV-CONTADOR
+           ELSE
+             MOVE WSV-CONTADOR TO REG-PAIS-NRO-PAIS
+             MOVE WSV-NOM-PAIS TO REG-PAIS-DESCRIP
+             PERFORM 7000-Escribir-archivo
+           END-IF
            .
       *************************** Archivo ******************************
        7000-Abrir-archivo.
@@ -105,7 +114,7 @@
            .
        7000-Escribir-archivo.
            WRITE REGISTRO-ARCH-PAIS
-           DISPLAY "Registro escrito en ATCH-PAISES: "
+           DISPLAY "Registro escrito en ARCH-PAISES: "
                    REGISTRO-ARCH-PAIS
            .
        7000-Cerrar-archivo.
