@@ -1,0 +1,36 @@
+Nombre de las declaraciones:
+    WSS - switch
+    WSV - Variables
+    WSC - Constantes 
+    WST - Tablas
+    WSR - Registro
+----
+Que el nombre del programa no supere 8 pos
+El program ID debe ser = al del programa
+----
+El programa debe tener autor
+----
+El programa debe tener fecha
+----
+Comentar que hace cada parrafo
+----
+1 solo . por parrafo
+----
+Cada perform no puede superar 4 cadias
+----
+Siempre tener control del FS (file status)
+----
+Parrafos unicos para 
+    - Apertura
+    - Lectura 
+    - Escritura 
+    - Cierre
+----
+1 unico STOP-RUN
+----
+Perform siempre que este hacia abajo en el codigo
+----
+EVALUATE debe llevar la clausula WHEN OTHER
+----
+No declarar variables de mas
+----
