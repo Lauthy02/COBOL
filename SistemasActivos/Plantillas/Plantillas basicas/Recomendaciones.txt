@@ -1,8 +1,9 @@
-WSS - switch
-WSV - Variables
-WSC - Constantes 
-WST - Tablas
-WSR - Registro
+Nombre de las declaraciones:
+    WSS - switch
+    WSV - Variables
+    WSC - Constantes 
+    WST - Tablas
+    WSR - Registro
 ----
 Que el nombre del programa no supere 8 pos
 El program ID debe ser = al del programa
