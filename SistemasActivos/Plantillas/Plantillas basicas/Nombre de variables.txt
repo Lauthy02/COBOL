@@ -1,0 +1,5 @@
+WSS - switch
+WSV - Variables
+WSC - Constantes 
+WST - Tablas
+WSR - Registro
