@@ -3,7 +3,7 @@
       *                 (GENERAR EL ARCHIVO CON 8 MATERIAS)
       *                     NRO-MATERIA DE 1  A 8
        IDENTIFICATION DIVISION.
-       PROGRAM-ID.                 PGENMAT.
+       PROGRAM-ID.                 PGENMATE.
        AUTHOR.                     Lautaro-Rojas.
        DATE-WRITTEN.               31/10/2022.
        DATE-COMPILED.
@@ -37,7 +37,7 @@
                02 FS-MATERIAS                  PIC X(02) VALUE ZEROES.
       *
       *Variables de entrada.
-
+           01 WSV-NOM-MAT                      PIC X(25).
       *
       *Variables auxuliares
            01 WSV-ANULADO.
@@ -47,9 +47,6 @@
 
            01 WSV-CONTADORES.
                02 WSV-CONTADOR                 PIC 9(01).
-
-           01 WSV-NOM-MAT                      PIC X(25).
-
       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
       *-------------------------- Programa -----------------------------
        PROCEDURE DIVISION.
