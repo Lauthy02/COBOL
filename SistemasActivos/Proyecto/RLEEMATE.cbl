@@ -1,6 +1,8 @@
       *--1----.----2----.----3----.----4----.----5----.----6----.----7----.----8
       *    Programa rutina para leer el archivo de materias y lo guarde
       *    en una tabla
+      *Este programa lo compile con cobc -m RLEEMATE.cbl
+      *    No con el -x que genera un .exe
        IDENTIFICATION DIVISION.
        PROGRAM-ID.                 RGENMATE.
        AUTHOR.                     Lautaro-Rojas.
@@ -44,17 +46,14 @@
                02 WSV-ANULADO-DESCRIP          PIC X(50).
 
            01 WSV-CONTADORES.
-               02 WSV-CONTADOR                 PIC 9(01).
-      *Tabla 
-           01 WST-MATRIZ.
-               02 WST-FILA OCCURS 8 TIMES.
-                   03 WST-COLUMNA OCCURS 2 TIMES.
-                       04 WST-NUMERO           PIC 9(02).
-                       04 WST-DESCRI           PIC 9(25).
+               02 CONT                         PIC 9(02).
+               
+       LINKAGE SECTION.
+       COPY TAB-MATE.
 
       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
       *-------------------------- Programa -----------------------------
-       PROCEDURE DIVISION.
+       PROCEDURE DIVISION USING WST-TABLA-MAT.
        MAIN-PROCEDURE.
            PERFORM 1000-Inicio-programa
            PERFORM 5000-Proceso
@@ -77,17 +76,18 @@
            .
       *.......................... Proceso ..............................
        5000-Proceso.
-           DISPLAY "Sumando columnas"
-           PERFORM VARYING WSV-CONT-FIL FROM 1
-           BY 1 UNTIL WSV-CONT-FIL > 8
-               PERFORM VARYING WSV-CONT-COL FROM 1
-               BY 1 UNTIL WSV-CONT-COL > 2
-                   
-               END-PERFORM
-               MOVE WSV-TOT-COL TO WST-GASTOS(13,WSV-CONT-COL)
-               MOVE 0 TO WSV-TOT-COL
-           END-PERFORM.
-       .
+           PERFORM 7000-Leer-archivo
+           MOVE 1 TO CONT
+           PERFORM 5000-Pasar-a-tabla UNTIL FS-MATERIAS = "10"
+           .
+       5000-Pasar-a-tabla.
+           MOVE REG-MAT-NRO-MATERIA TO WST-NUMERO(CONT)
+           MOVE REG-MAT-DESCRIPCION TO WST-DESCRI(CONT)
+           ADD 1 TO CONT
+           DISPLAY "Registro escrito en WST-TABLA-MAT: "
+                   REGISTRO-ARCH-MATERIA
+           PERFORM 7000-Leer-archivo
+           .
       *************************** Archivo ******************************
        7000-Abrir-archivo.
            OPEN INPUT MATERIAS
@@ -101,7 +101,7 @@
                END-IF
            .
        7000-Leer-archivo.
-           READ REGISTRO-ARCH-MATERIA
+           READ MATERIAS
            DISPLAY "Registro leido en ARCH-MATERIAS: "
                    REGISTRO-ARCH-MATERIA
            .
@@ -131,6 +131,7 @@
            PERFORM 7000-Cerrar-archivo.
            DISPLAY " "
            DISPLAY "---- Fin del programa ----"
+           DISPLAY WST-TABLA-MAT
            PERFORM 9999-Stop-Run
            .
        9999-Stop-Run.
