@@ -78,15 +78,18 @@
        5000-Proceso.
            PERFORM 7000-Leer-archivo
            MOVE 1 TO CONT
-           PERFORM 5000-Pasar-a-tabla UNTIL FS-MATERIAS = "10"
+           PERFORM 5100-Pasar-a-tabla UNTIL FS-MATERIAS = "10"
            .
-       5000-Pasar-a-tabla.
+       5100-Pasar-a-tabla.
            MOVE REG-MAT-NRO-MATERIA TO WST-NUMERO(CONT)
            MOVE REG-MAT-DESCRIPCION TO WST-DESCRI(CONT)
            ADD 1 TO CONT
            DISPLAY "Registro escrito en WST-TABLA-MAT: "
                    REGISTRO-ARCH-MATERIA
            PERFORM 7000-Leer-archivo
+           .
+       5100-Buscar.
+
            .
       *************************** Archivo ******************************
        7000-Abrir-archivo.
